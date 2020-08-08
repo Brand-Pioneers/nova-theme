@@ -3,6 +3,7 @@
 namespace BrandPioneers\NovaTheme;
 
 use Laravel\Nova\Nova;
+use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\ServiceProvider;
 
 class ThemeServiceProvider extends ServiceProvider
@@ -14,7 +15,9 @@ class ThemeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Nova::theme(asset('/brandpioneers/nova-theme/theme.css'));
+        Nova::serving(function (ServingNova $event) {
+            Nova::theme(asset('/brandpioneers/nova-theme/theme.css'));
+        });
 
         $this->publishes([
             __DIR__.'/../resources/css'   => public_path('brandpioneers/nova-theme'),
